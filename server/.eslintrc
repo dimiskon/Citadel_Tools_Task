@@ -1,0 +1,120 @@
+{
+  "env": {
+    "node": true,
+    "es6": true,
+    "mocha": true
+  },
+  "extends": [
+    "eslint:recommended"
+  ],
+  "globals": {
+    "process": true,
+    "module": true
+  },
+  "parserOptions": {
+    "ecmaVersion": 9
+  },
+  "rules": {
+    "no-console": 0,
+    "strict": [
+      "error",
+      "global"
+    ],
+    "indent": [
+      "error",
+      2
+    ],
+    "linebreak-style": [
+      "error",
+      "unix"
+    ],
+    "quotes": [
+      "error",
+      "double",
+      {
+        "avoidEscape": true,
+        "allowTemplateLiterals": true
+      }
+    ],
+    "semi": [
+      "error",
+      "always"
+    ],
+    "eqeqeq": [
+      "error",
+      "always"
+    ],
+    "no-multi-spaces": "error",
+    "array-bracket-spacing": [
+      "error",
+      "never",
+      {
+        "objectsInArrays": false,
+        "arraysInArrays": false,
+        "singleValue": false
+      }
+    ],
+    "object-curly-spacing": [
+      "error",
+      "always",
+      {
+        "objectsInObjects": false
+      }
+    ],
+    "space-in-parens": [
+      "error",
+      "never"
+    ],
+    "comma-spacing": [
+      "error",
+      {
+        "before": false,
+        "after": true
+      }
+    ],
+    "keyword-spacing": [
+      "error",
+      {
+        "before": true,
+        "after": true
+      }
+    ],
+    "key-spacing": [
+      "error",
+      {
+        "beforeColon": false,
+        "afterColon": true
+      }
+    ],
+    "no-trailing-spaces": "error",
+    "space-before-blocks": "error",
+    "arrow-spacing": [
+      "error",
+      {
+        "before": true,
+        "after": true
+      }
+    ],
+    "space-infix-ops": "error",
+    "no-multiple-empty-lines": [
+      "error",
+      {
+        "max": 1,
+        "maxEOF": 1
+      }
+    ],
+    "computed-property-spacing": [
+      "error",
+      "never"
+    ],
+    "curly": "error",
+    "brace-style": [
+      "error",
+      "1tbs",
+      {
+        "allowSingleLine": true
+      }
+    ],
+    "block-spacing": "error"
+  }
+}

@@ -1,0 +1,35 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "description": "OSSEAY",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon ./src/index.js",
+    "eslint": "eslint '**/*.js'",
+    "eslint-fix": "eslint '**/*.js' --fix",
+    "migrations:up": "node ./migrations/migrate ./migrations/mock-events/migrations_up.json",
+    "migrations:down": "node ./migrations/migrate ./migrations/mock-events/migrations_down.json"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "jsonwebtoken": "^9.0.0",
+    "lodash": "^4.17.21",
+    "moment": "^2.29.4",
+    "mysql2": "2.1.0",
+    "sequelize": "^6.21.0",
+    "sequelize-cli": "^6.5.2",
+    "uuid": "^9.0.0"
+  },
+  "devDependencies": {
+    "eslint": "^8.32.0",
+    "nodemon": "^2.0.20",
+    "umzug": "2.2.0"
+  },
+  "precommit": [
+    "eslint"
+  ]
+}
