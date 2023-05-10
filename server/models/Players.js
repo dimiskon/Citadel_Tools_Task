@@ -29,7 +29,6 @@ module.exports = (sequelize, DataTypes) => {
   );
 
   Players.associate = function (models) {
-    console.log(models);
     // Players <-*------------1-> Teams
     Players.belongsTo(models.Teams, {
       foreignKey: { name: "team_id", allowNull: false, unique: true },
