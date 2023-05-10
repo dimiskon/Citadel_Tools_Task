@@ -1,10 +1,13 @@
 import { createApp } from "vue";
+import axios from "axios";
 import "bootstrap/dist/css/bootstrap.css";
 import "bootstrap";
 import { createRouter, createWebHistory } from "vue-router";
 import App from "./App.vue";
 import Login from "./components/Login.vue";
 import Register from "./components/Register.vue";
+
+axios.defaults.baseURL = "http://localhost:5000";
 
 const routes = [
   { path: "/login", component: Login },

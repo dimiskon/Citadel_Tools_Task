@@ -13,9 +13,9 @@ const generateQRCode = async (req, res, next) => {
   );
 
   try {
-    const qrCodeURL = await qrcode.toDataURL(otpauthUrl);
+    const QRCodeURL = await qrcode.toDataURL(otpauthUrl);
     res.response_body = {
-      qrcode_url: qrCodeURL,
+      QRCodeURL,
     };
     next();
   } catch (error) {
