@@ -4,16 +4,11 @@ module.exports = (sequelize, DataTypes) => {
   const Users = sequelize.define(
     "Users",
     {
-      user_id: {
-        allowNull: false,
-        primaryKey: true,
-        defaultValue: DataTypes.UUIDV4,
-        type: DataTypes.UUID,
-      },
-      email_address: {
+      username: {
         type: DataTypes.STRING,
         allowNull: false,
         unique: true,
+        primaryKey: true,
       },
       password: {
         type: DataTypes.STRING,
@@ -35,7 +30,7 @@ module.exports = (sequelize, DataTypes) => {
   Users.associate = function (models) {
     // Users <-1------------*-> Teams
     Users.hasMany(models.Teams, {
-      foreignKey: { name: "user_id", allowNull: false, unique: true },
+      foreignKey: { name: "username", allowNull: false, unique: true },
     });
   };
   return Users;

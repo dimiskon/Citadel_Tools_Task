@@ -6,7 +6,7 @@
         <form @submit.prevent="login">
           <div class="mb-3">
             <label class="form-label">Email</label>
-            <input type="email" class="form-control" v-model="email" required />
+            <input type="email" class="form-control" v-model="username" required />
           </div>
           <div class="mb-3">
             <label class="form-label">Password</label>
@@ -14,12 +14,15 @@
           </div>
           <div class="mb-3">
             <label class="form-label">2FA</label>
-            <input class="form-control" type="number" v-model="_2fa" required />
+            <input class="form-control" type="number" v-model="token" required />
           </div>
-          <div class="d-grid gap-2 d-flex justify-content-center">
+          <div class="d-grid mt-3 justify-content-center">
             <button class="btn btn-primary" style="font-size: 1.3rem" type="submit">Login</button>
           </div>
         </form>
+        <div class="text-center mt-3">
+          <router-link to="/register">Register</router-link>
+        </div>
       </div>
     </div>
   </div>
@@ -28,9 +31,9 @@
 <script setup>
 import { ref } from "vue";
 
-const email = ref("");
+const username = ref("");
 const password = ref("");
-const _2fa = ref("");
+const token = ref("");
 const login = async () => {
   //   try {
   //     const response = await fetch('http://localhost:3000/login', {
@@ -38,7 +41,7 @@ const login = async () => {
   //       headers: {
   //         'Content-Type': 'application/json'
   //       },
-  //       body: JSON.stringify({ email: email.value, password: password.value })
+  //       body: JSON.stringify({ username: username.value, password: password.value })
   //     })
   //     const data = await response.json()
   //     console.log(data)

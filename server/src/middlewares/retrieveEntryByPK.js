@@ -2,21 +2,21 @@
 
 const _ = require("lodash");
 
-const retrieveEntryByPk = ({ model_name, param_name, field_name }) => {
+const retrieveEntryByPk = ({ modelName, paramName, fieldName }) => {
   return async (req, res, next) => {
     const db = _.get(req, "db", null);
-    const Model = _.get(db, `sequelize.models[${model_name}]`, null);
-    const param_value = _.get(req, `${param_name}`, null);
+    const Model = _.get(db, `sequelize.models[${modelName}]`, null);
+    const paramValue = _.get(req, `${paramName}`, null);
 
     try {
-      const result = await Model.findByPk(param_value);
+      const result = await Model.findByPk(paramValue);
       if (!result) {
         next({
-          message: `Could not found a ${model_name} entry with ${param_name} of ${param_value}`,
+          message: `Could not found a ${modelName} entry with ${paramName} of ${paramValue}`,
           statusCode: 404,
         });
       }
-      req[field_name] = result;
+      req[fieldName] = result;
       next();
     } catch (error) {
       const err = error.toString();

@@ -37,17 +37,11 @@ const startServer = async () => {
     // Middlewares - Before
     app.use(logger);
 
-    // Home Page
-    app.get("/", (req, res) => {
-      res.send("HOME PAGE");
-    });
-
     // QRCode Route
     app.get("/generateQRCode", generateQRCode);
 
     // Routers
     app.use("/users", usersRouter);
-
     // app.use("/teams", teamsRouter);
 
     // Middlewares - After

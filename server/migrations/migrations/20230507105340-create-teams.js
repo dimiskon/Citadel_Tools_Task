@@ -13,12 +13,12 @@ module.exports = {
         type: DataTypes.STRING,
         allowNull: false,
       },
-      user_id: {
-        type: DataTypes.UUID,
+      username: {
+        type: DataTypes.STRING,
         allowNull: false,
         references: {
           model: "Users",
-          key: "user_id",
+          key: "username",
         },
         unique: true,
       },

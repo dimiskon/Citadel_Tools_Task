@@ -31,7 +31,7 @@ module.exports = (sequelize, DataTypes) => {
   Teams.associate = function (models) {
     // Teams <-*------------1-> Users
     Teams.belongsTo(models.Users, {
-      foreignKey: { name: "user_id", allowNull: false, unique: true },
+      foreignKey: { name: "username", allowNull: false, unique: true },
     });
 
     // Teams <-1------------*-> Players

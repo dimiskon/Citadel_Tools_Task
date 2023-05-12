@@ -7,15 +7,16 @@ const generateQRCode = async (req, res, next) => {
   const secret = otplib.authenticator.generateSecret();
 
   const otpauthUrl = otplib.authenticator.keyuri(
-    "username",
-    "citadel_task",
+    "",
+    "Citadel Tools Task",
     secret
   );
 
   try {
     const QRCodeURL = await qrcode.toDataURL(otpauthUrl);
-    res.response_body = {
+    res.responseBody = {
       QRCodeURL,
+      secret,
     };
     next();
   } catch (error) {

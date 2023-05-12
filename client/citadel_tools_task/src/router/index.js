@@ -11,6 +11,7 @@ const routes = [
     path: "/register",
     component: Register
   },
+  // Fail-Gracefully: 404 pages redirect to `/login` page
   {
     path: "/:pathMatch(.*)*",
     redirect: "/login"
