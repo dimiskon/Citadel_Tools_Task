@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from "vue-router";
 import Login from "../components/Login.vue";
 import Register from "../components/Register.vue";
+import Teams from "../components/Teams.vue";
 
 const routes = [
   {
@@ -10,6 +11,10 @@ const routes = [
   {
     path: "/register",
     component: Register
+  },
+  {
+    path: "/teams",
+    component: Teams
   },
   // Fail-Gracefully: 404 pages redirect to `/login` page
   {
