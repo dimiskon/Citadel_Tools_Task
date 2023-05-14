@@ -62,7 +62,7 @@ const errorMessage = ref("");
 onMounted(async () => {
   const { data } = await axios.get("/generateQRCode");
   console.log({ data });
-  qrCode.value = data.QRCodeURL;
+  qrCode.value = data.qrCodeURL;
   JWT.value = data.secret;
 });
 

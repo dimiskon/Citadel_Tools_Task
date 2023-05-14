@@ -11,12 +11,7 @@ const registerUser = require("./registerUser");
 // Joi Schemas
 // Requests
 
-userRouter.param("username", (req, res, next, username) => {
-  req.username = username;
-  next();
-});
-
 // Register User POST(/users/register)
-userRouter.route("/register").post(registerUser);
+userRouter.post("/register", registerUser);
 
 module.exports = userRouter;

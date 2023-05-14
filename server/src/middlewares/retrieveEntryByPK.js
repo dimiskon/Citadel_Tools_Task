@@ -7,7 +7,7 @@ const retrieveEntryByPk = ({ modelName, paramName, fieldName }) => {
     const db = _.get(req, "db", null);
     const Model = _.get(db, `sequelize.models[${modelName}]`, null);
     const paramValue = _.get(req, `${paramName}`, null);
-
+    console.log({ paramValue, paramName });
     try {
       const result = await Model.findByPk(paramValue);
       if (!result) {

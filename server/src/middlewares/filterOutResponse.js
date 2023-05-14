@@ -27,6 +27,7 @@ module.exports = async (req, res, next) => {
 
   if (!responseSchema) {
     res.status(200).json(responseBodyRaw);
+    next();
     return;
   }
 

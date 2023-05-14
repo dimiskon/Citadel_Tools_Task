@@ -10,12 +10,8 @@ module.exports = (sequelize, DataTypes) => {
         defaultValue: DataTypes.UUIDV4,
         type: DataTypes.UUID,
       },
-      name: {
+      team_name: {
         type: DataTypes.STRING,
-        allowNull: false,
-      },
-      signed: {
-        type: DataTypes.BOOLEAN,
         allowNull: false,
       },
     },

@@ -12,8 +12,8 @@ const PORT = process.env.PORT || 5000;
 const generateQRCode = require("./routes/QRCode");
 
 // Routers
-const usersRouter = require("./routes/Users");
-// const teamsRouter = require("./routes/ranks");
+const userRouter = require("./routes/Users");
+const teamsRouter = require("./routes/Teams");
 
 // Middlewares
 const dbConnector = require("./middlewares/dbConnector");
@@ -41,8 +41,8 @@ const startServer = async () => {
     app.get("/generateQRCode", generateQRCode);
 
     // Routers
-    app.use("/users", usersRouter);
-    // app.use("/teams", teamsRouter);
+    app.use("/users", userRouter);
+    app.use("/users/:username/teams", teamsRouter);
 
     // Middlewares - After
     app.use(filterOutResponse);
