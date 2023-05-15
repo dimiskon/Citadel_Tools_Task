@@ -2,16 +2,19 @@
 
 const _ = require("lodash");
 
+const responseSchema = require("../../schemas/Teams/responses/getAllTeamsResponseSchema");
+
 const getTeams = async (req, res, next) => {
   const { Users, Teams } = _.get(req, "db.sequelize.models", {});
-  const { username = null } = _.get(req, "User", {});
+  const username = _.get(req, `params.username`, null);
 
   const userTeams = await Users.findAll({
     where: { username },
     include: [{ model: Teams, required: true }],
   });
 
-  res.responseBody = userTeams;
+  res.responseBody = userTeams[0].Teams;
+  res.responseSchema = responseSchema;
   next();
 };
 

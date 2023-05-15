@@ -31,7 +31,10 @@ const UserRegistration = async (req, res, next) => {
     return;
   } else {
     console.log("New User has been registered with values: ", newUser);
-    res.responseBody = newUser;
+    res.responseBody = {
+      username: newUser.username,
+      token: newUser.token,
+    };
     next();
   }
 };
