@@ -4,33 +4,43 @@
       <h2 class="card-header">Register</h2>
       <div class="card-body">
         <div
-          v-if="errorMessage"
+          v-if="componentData.errorMessage"
           role="alertdialog"
           class="alert alert-danger my-2"
           style="font-size: larger; color: brown"
         >
-          {{ errorMessage }}
+          {{ componentData.errorMessage }}
         </div>
         <div class="card-text">
           <form @submit.prevent="register">
             <div class="mb-3">
               <label class="form-label">Email</label>
-              <input type="email" class="form-control" v-model="username" />
+              <input type="email" class="form-control" v-model="componentData.username" required />
             </div>
             <div class="mb-3">
               <label class="form-label">Password</label>
-              <input type="password" class="form-control" v-model="password" />
+              <input
+                type="password"
+                class="form-control"
+                v-model="componentData.password"
+                required
+              />
             </div>
             <div class="mb-3">
               <label class="form-label">Confirm Password</label>
-              <input type="password" class="form-control" v-model="confirmPassword" />
+              <input
+                type="password"
+                class="form-control"
+                v-model="componentData.confirmPassword"
+                required
+              />
             </div>
             <div class="text-center">
-              <img alt="qrCode" class="img-thumbnail" :src="qrCode" />
+              <img alt="qrCodeImgURL" class="img-thumbnail" :src="componentData.qrCodeImgURL" />
             </div>
             <div class="mb-3">
               <label class="form-label">2FA</label>
-              <input class="form-control" type="number" v-model="token" />
+              <input class="form-control" type="number" v-model="componentData.token2FA" required />
             </div>
             <div class="d-grid gap-2 d-flex justify-content-center">
               <button class="btn btn-primary" style="font-size: 1.3rem" type="submit">
@@ -49,41 +59,49 @@
 
 <script setup>
 import axios from "axios";
-import { ref, onMounted } from "vue";
+import _ from "lodash";
+import { ref, onMounted, reactive } from "vue";
 
-const username = ref("");
-const password = ref("");
-const confirmPassword = ref("");
-const qrCode = ref("");
-const JWT = ref("");
-const token = ref("");
-const errorMessage = ref("");
+const componentData = reactive({
+  username: "",
+  password: "",
+  confirmPassword: "",
+  qrCodeImgURL: "",
+  secret: "",
+  token2FA: "",
+  errorMessage: ""
+});
+// const { username, password, confirmPassword, qrCodeImgURL, secret, token, errorMessage } = ref({
+//   username: "",
+//   password: "",
+//   confirmPassword: "",
+//   qrCodeImgURL: "",
+//   secret: "",
+//   token2FA: "",
+//   errorMessage: ""
+// });
 
 onMounted(async () => {
   const { data } = await axios.get("/generateQRCode");
   console.log({ data });
-  qrCode.value = data.qrCodeURL;
-  JWT.value = data.secret;
+  componentData.qrCodeImgURL = data.qrCodeURL;
+  componentData.secret = data.secret;
 });
 
-const register = async () => {
-  if (password.value !== confirmPassword.value) {
-    errorMessage.value = "Passwords don't match!";
+const register = async (event) => {
+  if (componentData.password !== componentData.confirmPassword) {
+    componentData.errorMessage = "Passwords don't match!";
     return;
   }
   console.log("Sumbit Register Button!");
 
-  //   try {
-  //     const response = await axios.post('/api/register', {
-  //       username: username.value,
-  //       password: password.value,
-  //       token: token.value,
-  //       JWT: JWT.value,
-  //     })
-  //     console.log(response.data)
-  //   } catch (error) {
-  //     console.error(error)
-  //     errorMessage.value = 'An error occurred while registering.'
-  //   }
+  console.log(event);
+  // try {
+  //   const response = await axios.post("/users/register", {});
+  //   console.log(response.data);
+  // } catch (error) {
+  //   console.error(error);
+  //   componentData.errorMessage = "An error occurred while registering.";
+  // }
 };
 </script>
