@@ -14,10 +14,9 @@ const getTeams = require("./getTeams");
 // Requests
 const addTeamReqSchema = require("../../schemas/Teams/requests/addTeamReqSchema");
 
-// Prefix Routing ('/users/:username/teams') - REST API Best Practices
 teamsRouter
   .route("/")
-  // POST Team - ('/users/:usename/teams')
+  // POST Team - ('/teams')
   .post(
     retrieveEntryByPk({
       modelName: "Users",
@@ -27,14 +26,7 @@ teamsRouter
     bodyValidator(addTeamReqSchema),
     addTeam
   )
-  // Get Teams - ('/users/:usename/teams')
-  .get(
-    // retrieveEntryByPk({
-    //   modelName: "Users",
-    //   paramName: "username",
-    //   fieldName: "User",
-    // }),
-    getTeams
-  );
+  // Get Teams - ('/teams')
+  .get(getTeams);
 
 module.exports = teamsRouter;

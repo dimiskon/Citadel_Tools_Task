@@ -15,32 +15,22 @@
           <form @submit.prevent="register">
             <div class="mb-3">
               <label class="form-label">Email</label>
-              <input type="email" class="form-control" v-model="componentData.username" required />
+              <input type="email" class="form-control" v-model="componentData.username" />
             </div>
             <div class="mb-3">
               <label class="form-label">Password</label>
-              <input
-                type="password"
-                class="form-control"
-                v-model="componentData.password"
-                required
-              />
+              <input type="password" class="form-control" v-model="componentData.password" />
             </div>
             <div class="mb-3">
               <label class="form-label">Confirm Password</label>
-              <input
-                type="password"
-                class="form-control"
-                v-model="componentData.confirmPassword"
-                required
-              />
+              <input type="password" class="form-control" v-model="componentData.confirmPassword" />
             </div>
             <div class="text-center">
               <img alt="qrCodeImgURL" class="img-thumbnail" :src="componentData.qrCodeImgURL" />
             </div>
             <div class="mb-3">
               <label class="form-label">2FA</label>
-              <input class="form-control" type="number" v-model="componentData.token2FA" required />
+              <input class="form-control" type="number" v-model="componentData.token2FA" />
             </div>
             <div class="d-grid gap-2 d-flex justify-content-center">
               <button class="btn btn-primary" style="font-size: 1.3rem" type="submit">
@@ -88,14 +78,15 @@ onMounted(async () => {
   componentData.secret = data.secret;
 });
 
-const register = async (event) => {
+const register = async () => {
   if (componentData.password !== componentData.confirmPassword) {
     componentData.errorMessage = "Passwords don't match!";
     return;
   }
-  console.log("Sumbit Register Button!");
+  console.log("Submit Register Button!");
 
-  console.log(event);
+  const payload = _.omit(componentData, "confirmPassword", "qrCodeImgURL", "errorMessage");
+  console.log({ payload });
   // try {
   //   const response = await axios.post("/users/register", {});
   //   console.log(response.data);

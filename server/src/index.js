@@ -8,11 +8,8 @@ const cors = require("cors");
 
 const PORT = process.env.PORT || 5000;
 
-// Routes
-const generateQRCode = require("./routes/QRCode");
-
 // Routers
-const userRouter = require("./routes/Users");
+const authorizationRouter = require("./routes/Authorization");
 const teamsRouter = require("./routes/Teams");
 
 // Middlewares
@@ -37,12 +34,9 @@ const startServer = async () => {
     // Middlewares - Before
     app.use(logger);
 
-    // QRCode Route
-    app.get("/generateQRCode", generateQRCode);
-
     // Routers
-    app.use("/users", userRouter);
-    app.use("/users/:username/teams", teamsRouter);
+    app.use("/", authorizationRouter);
+    app.use("/teams", teamsRouter);
 
     // Middlewares - After
     app.use(filterOutResponse);
