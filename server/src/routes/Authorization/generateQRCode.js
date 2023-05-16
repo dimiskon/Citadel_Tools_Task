@@ -1,14 +1,21 @@
 "use strict";
 
-const otplib = require("otplib");
+const { authenticator } = require("@otplib/preset-default");
 const qrcode = require("qrcode");
+
+authenticator.allOptions();
 
 const responseSchema = require("../../schemas/Authorization/responses/generateQRCodeResponseSchema");
 
 const generateQRCode = async (req, res, next) => {
-  const secret = otplib.authenticator.generateSecret();
-
-  const dataURL = otplib.authenticator.keyuri("", "Teams Task", secret);
+  const secret = authenticator.generateSecret();
+  console.log({ secret });
+  const token = authenticator.generate(secret);
+  const dataURL = authenticator.keyuri(
+    encodeURIComponent(""),
+    encodeURIComponent("Teams Task"),
+    secret
+  );
 
   try {
     const qrCodeURL = await qrcode.toDataURL(dataURL);
@@ -16,6 +23,7 @@ const generateQRCode = async (req, res, next) => {
     res.responseBody = {
       qrCodeURL,
       secret,
+      token,
     };
     next();
   } catch (error) {

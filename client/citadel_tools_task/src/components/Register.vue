@@ -15,22 +15,37 @@
           <form @submit.prevent="register">
             <div class="mb-3">
               <label class="form-label">Email</label>
-              <input type="email" class="form-control" v-model="componentData.username" />
+              <input type="email" class="form-control" v-model="componentData.username" required />
             </div>
             <div class="mb-3">
               <label class="form-label">Password</label>
-              <input type="password" class="form-control" v-model="componentData.password" />
+              <input
+                type="password"
+                class="form-control"
+                v-model="componentData.password"
+                required
+              />
             </div>
             <div class="mb-3">
               <label class="form-label">Confirm Password</label>
-              <input type="password" class="form-control" v-model="componentData.confirmPassword" />
+              <input
+                type="password"
+                class="form-control"
+                v-model="componentData.confirmPassword"
+                required
+              />
             </div>
             <div class="text-center">
-              <img alt="qrCodeImgURL" class="img-thumbnail" :src="componentData.qrCodeImgURL" />
+              <img
+                alt="qrCodeImgURL"
+                class="img-thumbnail"
+                :src="componentData.qrCodeImgURL"
+                required
+              />
             </div>
             <div class="mb-3">
               <label class="form-label">2FA</label>
-              <input class="form-control" type="number" v-model="componentData.token2FA" />
+              <input class="form-control" type="number" v-model="componentData.token" required />
             </div>
             <div class="d-grid gap-2 d-flex justify-content-center">
               <button class="btn btn-primary" style="font-size: 1.3rem" type="submit">
@@ -58,7 +73,7 @@ const componentData = reactive({
   confirmPassword: "",
   qrCodeImgURL: "",
   secret: "",
-  token2FA: "",
+  token: "",
   errorMessage: ""
 });
 // const { username, password, confirmPassword, qrCodeImgURL, secret, token, errorMessage } = ref({
@@ -85,14 +100,15 @@ const register = async () => {
   }
   console.log("Submit Register Button!");
 
+  // Prepare POST (/register) body payload
   const payload = _.omit(componentData, "confirmPassword", "qrCodeImgURL", "errorMessage");
   console.log({ payload });
-  // try {
-  //   const response = await axios.post("/users/register", {});
-  //   console.log(response.data);
-  // } catch (error) {
-  //   console.error(error);
-  //   componentData.errorMessage = "An error occurred while registering.";
-  // }
+  try {
+    const response = await axios.post("/register", payload);
+    console.log(response.data);
+  } catch (error) {
+    console.error({ error });
+    componentData.errorMessage = `An error occurred while registering user '${componentData.username}'`;
+  }
 };
 </script>
