@@ -4,26 +4,31 @@
       <h2 class="card-header">Login</h2>
       <div class="card-body">
         <div
-          v-if="errorMessage"
+          v-if="componentData.errorMessage"
           role="alertdialog"
           class="alert alert-danger my-2"
           style="font-size: larger; color: brown"
         >
-          {{ errorMessage }}
+          {{ componentData.errorMessage }}
         </div>
         <div class="card-text">
-          <form @submit.prevent="login">
+          <form @submit.prevent="login" autocomplete="off">
             <div class="mb-3">
               <label class="form-label">Email</label>
-              <input type="email" class="form-control" v-model="username" required />
+              <input type="email" class="form-control" v-model="componentData.username" required />
             </div>
             <div class="mb-3">
               <label class="form-label">Password</label>
-              <input type="password" class="form-control" v-model="password" required />
+              <input
+                type="password"
+                class="form-control"
+                v-model="componentData.password"
+                required
+              />
             </div>
             <div class="mb-3">
               <label class="form-label">2FA</label>
-              <input class="form-control" type="number" v-model="token" required />
+              <input class="form-control" type="text" v-model="componentData.token" required />
             </div>
             <div class="d-grid mt-2 justify-content-center">
               <button class="btn btn-primary" style="font-size: 1.3rem" type="submit">Login</button>
@@ -39,26 +44,29 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { reactive } from "vue";
+import axios from "axios";
+import _ from "lodash";
+import { useRouter } from "vue-router";
+const router = useRouter();
 
-const username = ref("");
-const password = ref("");
-const token = ref("");
-const errorMessage = ref("");
+const componentData = reactive({
+  username: "",
+  password: "",
+  token: "",
+  errorMessage: ""
+});
+
 const login = async () => {
-  //   try {
-  //     const response = await fetch('http://localhost:3000/login', {
-  //       method: 'POST',
-  //       headers: {
-  //         'Content-Type': 'application/json'
-  //       },
-  //       body: JSON.stringify({ username: username.value, password: password.value })
-  //     })
-  //     const data = await response.json()
-  //     console.log(data)
-  //   } catch (error) {
-  //     console.error(error)
-  //   }
+  try {
+    const payload = _.omit(componentData, "errorMessage");
+    const { data: JWT } = await axios.post("/login", payload);
+  } catch (error) {
+    const AxiosError = error.name === "AxiosError" ? error.response.data.message : "";
+    componentData.errorMessage = AxiosError
+      ? AxiosError
+      : `An error occurred while login user '${componentData.username}'`;
+  }
 };
 </script>
 

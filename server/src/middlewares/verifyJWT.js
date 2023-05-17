@@ -7,15 +7,15 @@ const verifyJWT = (req, res, next) => {
   const jwtToken = _.get(req, "headers.authorization", null);
   console.log(jwtToken);
   if (!jwtToken) {
-    next({
+    return next({
       message: "Token not found!",
       statusCode: 401,
     });
-    return;
   }
 
   try {
     jwt.verify(jwtToken, process.env.JWT_SECRET);
+    next();
   } catch (error) {
     next({
       statusCode: 403,

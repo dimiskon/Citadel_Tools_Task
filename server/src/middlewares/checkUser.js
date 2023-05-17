@@ -16,6 +16,7 @@ const checkUser = async (req, res, next) => {
   } else {
     req.user = user;
   }
+  next();
 };
 
 module.exports = checkUser;

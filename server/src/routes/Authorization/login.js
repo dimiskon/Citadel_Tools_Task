@@ -6,6 +6,8 @@ const jwt = require("jsonwebtoken");
 
 const JWT_SECRET = process.env.JWT_SECRET;
 
+const responseSchema = require("../../schemas/Authorization/responses/loginUserResponseSchema");
+
 const login = async (req, res, next) => {
   const { Users } = _.get(req, "db.sequelize.models", {});
   const body = _.get(req, "body", {});
@@ -42,7 +44,9 @@ const login = async (req, res, next) => {
       }
     );
 
-    res.status(200).json({ JWT });
+    res.responseSchema = responseSchema;
+    res.responseBody = { JWT };
+    next();
   } catch (error) {
     return next({
       statusCode: 401,

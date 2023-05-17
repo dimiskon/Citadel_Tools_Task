@@ -16,7 +16,7 @@ const routes = [
     path: "/teams",
     component: Teams
   },
-  // Fail-Gracefully: 404 pages redirect to `/login` page
+  // Fail-Gracefully: All 404 Pages will redirect to `/login` page
   {
     path: "/:pathMatch(.*)*",
     redirect: "/login"

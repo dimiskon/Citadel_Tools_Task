@@ -8,7 +8,7 @@ const verify2FAToken = (req, res, next) => {
 
   // Login Page - Get secret from User data
   if (!secret) {
-    secret = _.get(req, "user", null);
+    secret = _.get(req, "user.secret", null);
   }
 
   console.log({ token, secret });

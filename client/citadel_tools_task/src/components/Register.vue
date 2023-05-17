@@ -45,7 +45,7 @@
             </div>
             <div class="mb-3">
               <label class="form-label">2FA</label>
-              <input class="form-control" type="number" v-model="componentData.token" required />
+              <input class="form-control" type="text" v-model="componentData.token" required />
             </div>
             <div class="d-grid gap-2 d-flex justify-content-center">
               <button class="btn btn-primary" style="font-size: 1.3rem" type="submit">
@@ -65,7 +65,9 @@
 <script setup>
 import axios from "axios";
 import _ from "lodash";
-import { ref, onMounted, reactive } from "vue";
+import { onMounted, reactive } from "vue";
+import { useRouter } from "vue-router";
+const router = useRouter();
 
 const componentData = reactive({
   username: "",
@@ -76,19 +78,10 @@ const componentData = reactive({
   token: "",
   errorMessage: ""
 });
-// const { username, password, confirmPassword, qrCodeImgURL, secret, token, errorMessage } = ref({
-//   username: "",
-//   password: "",
-//   confirmPassword: "",
-//   qrCodeImgURL: "",
-//   secret: "",
-//   token2FA: "",
-//   errorMessage: ""
-// });
 
 onMounted(async () => {
   const { data } = await axios.get("/generateQRCode");
-  console.log({ data });
+
   componentData.qrCodeImgURL = data.qrCodeURL;
   componentData.secret = data.secret;
 });
@@ -98,17 +91,19 @@ const register = async () => {
     componentData.errorMessage = "Passwords don't match!";
     return;
   }
-  console.log("Submit Register Button!");
 
   // Prepare POST (/register) body payload
   const payload = _.omit(componentData, "confirmPassword", "qrCodeImgURL", "errorMessage");
-  console.log({ payload });
+
   try {
-    const response = await axios.post("/register", payload);
-    console.log(response.data);
+    await axios.post("/register", payload);
+    // After successful User registration, redirect to Login Page
+    router.push("/login");
   } catch (error) {
-    console.error({ error });
-    componentData.errorMessage = `An error occurred while registering user '${componentData.username}'`;
+    const AxiosError = error.name === "AxiosError" ? error.response.data.message : "";
+    componentData.errorMessage = AxiosError
+      ? AxiosError
+      : `An error occurred while registering user '${componentData.username}'`;
   }
 };
 </script>
