@@ -3,9 +3,9 @@
 const jwt = require("jsonwebtoken");
 const _ = require("lodash");
 
-const authorization = (req, res, next) => {
+const verifyJWT = (req, res, next) => {
   const jwtToken = _.get(req, "headers.authorization", null);
-
+  console.log(jwtToken);
   if (!jwtToken) {
     next({
       message: "Token not found!",
@@ -14,18 +14,14 @@ const authorization = (req, res, next) => {
     return;
   }
 
-  jwt.verify(jwtToken, process.env.JWT_SECRET, (err, user) => {
-    if (err) {
-      next({
-        message: "Unauthorized Access!",
-        statusCode: 403,
-      });
-      return;
-    }
-
-    req.user = user;
-    next();
-  });
+  try {
+    jwt.verify(jwtToken, process.env.JWT_SECRET);
+  } catch (error) {
+    next({
+      statusCode: 403,
+      message: "Unauthorized Access!",
+    });
+  }
 };
 
-module.exports = authorization;
+module.exports = verifyJWT;

@@ -13,8 +13,9 @@ module.exports = {
         type: DataTypes.STRING,
         allowNull: false,
       },
-      token: {
-        type: DataTypes.STRING,
+      secret: {
+        type: DataTypes.TEXT,
+        allowNull: false,
       },
       created_at: {
         allowNull: false,

@@ -17,15 +17,7 @@ const addTeamReqSchema = require("../../schemas/Teams/requests/addTeamReqSchema"
 teamsRouter
   .route("/")
   // POST Team - ('/teams')
-  .post(
-    retrieveEntryByPk({
-      modelName: "Users",
-      paramName: "username",
-      fieldName: "User",
-    }),
-    bodyValidator(addTeamReqSchema),
-    addTeam
-  )
+  .post(bodyValidator(addTeamReqSchema), addTeam)
   // Get Teams - ('/teams')
   .get(getTeams);
 

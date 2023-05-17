@@ -16,10 +16,8 @@ module.exports = async (req, res, next) => {
   const responseSchema = _.get(res, "responseSchema", null);
 
   if (!responseBody) {
-    next();
     return;
   }
-
   // Calling getRawData to obtain ONLY the raw data values.
   // There are cases when we'll receive of a Sequelize Object
   // or Array of Objects and therefore we need to normalize it.
@@ -27,7 +25,7 @@ module.exports = async (req, res, next) => {
 
   if (!responseSchema) {
     res.status(200).json(responseBodyRaw);
-    next();
+    console.log("jasdasda");
     return;
   }
 
@@ -38,7 +36,7 @@ module.exports = async (req, res, next) => {
     });
 
     console.log("Filtering Response: Successfully!");
-    res.send(value);
+    return res.status(200).json(value);
   } catch (err) {
     const filterResponseWarning = `filter-out-warning - there was an error in the filter out response!`;
     console.warn(filterResponseWarning);

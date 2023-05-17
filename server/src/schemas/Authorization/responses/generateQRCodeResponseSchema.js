@@ -6,7 +6,6 @@ module.exports = Joi.object()
   .keys({
     secret: Joi.string().default(""),
     qrCodeURL: Joi.string().default(""),
-    token: Joi.string().default(""),
   })
   .empty({})
   .default(undefined);

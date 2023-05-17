@@ -3,27 +3,20 @@
 const { authenticator } = require("@otplib/preset-default");
 const qrcode = require("qrcode");
 
-authenticator.allOptions();
-
 const responseSchema = require("../../schemas/Authorization/responses/generateQRCodeResponseSchema");
 
 const generateQRCode = async (req, res, next) => {
-  const secret = authenticator.generateSecret();
+  const secret = authenticator.generateSecret(32);
   console.log({ secret });
-  const token = authenticator.generate(secret);
-  const dataURL = authenticator.keyuri(
-    encodeURIComponent(""),
-    encodeURIComponent("Teams Task"),
-    secret
-  );
 
   try {
+    const dataURL = authenticator.keyuri("", "Teams Task", secret);
     const qrCodeURL = await qrcode.toDataURL(dataURL);
+
     res.responseSchema = responseSchema;
     res.responseBody = {
-      qrCodeURL,
       secret,
-      token,
+      qrCodeURL,
     };
     next();
   } catch (error) {

@@ -4,7 +4,13 @@ const _ = require("lodash");
 const otplib = require("otplib");
 
 const verify2FAToken = (req, res, next) => {
-  const { token, secret } = _.get(req, "body", {});
+  let { token, secret } = _.get(req, "body", {});
+
+  // Login Page - Get secret from User data
+  if (!secret) {
+    secret = _.get(req, "user", null);
+  }
+
   console.log({ token, secret });
   // Verify the provided 2FA token, against User's secret
   let isValid;

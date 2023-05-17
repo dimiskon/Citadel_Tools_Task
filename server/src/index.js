@@ -17,6 +17,7 @@ const dbConnector = require("./middlewares/dbConnector");
 const logger = require("./middlewares/logger");
 const errorHandler = require("./middlewares/errorHandler");
 const filterOutResponse = require("./middlewares/filterOutResponse");
+const verifyJWT = require("./middlewares/verifyJWT");
 
 const startServer = async () => {
   try {
@@ -36,7 +37,7 @@ const startServer = async () => {
 
     // Routers
     app.use("/", authorizationRouter);
-    app.use("/teams", teamsRouter);
+    app.use("/teams", verifyJWT, teamsRouter);
 
     // Middlewares - After
     app.use(filterOutResponse);
