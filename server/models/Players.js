@@ -10,7 +10,7 @@ module.exports = (sequelize, DataTypes) => {
         defaultValue: DataTypes.UUIDV4,
         type: DataTypes.UUID,
       },
-      name: {
+      player_name: {
         type: DataTypes.STRING,
         allowNull: false,
       },

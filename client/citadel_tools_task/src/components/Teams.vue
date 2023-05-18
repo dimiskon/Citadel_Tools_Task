@@ -1,29 +1,35 @@
 <template>
   <div>
+    <h1 class="mb-4" style="font-size: 3rem">Teams</h1>
     <form @submit="addTeam">
-      <table class="table">
+      <table class="table table-bordered">
         <thead>
           <tr>
             <th>Team Name</th>
             <th>Action</th>
           </tr>
         </thead>
-        <tbody>
+        <tbody class="table-group-divider">
           <tr v-for="team in teams" :key="team.team_id">
-            <router-link :to="'/teams/' + team.team_id + '/players'">{{
-              team.team_name
-            }}</router-link>
-            <!-- <a href="/teams">{{ team.team_name }}</a> -->
-            <td>
-              <button class="btn btn-danger" @click="deleteTeam(team.team_id)">
+            <router-link :to="'/teams/' + team.team_id + '/players'">
+              {{ team.team_name }}
+            </router-link>
+            <td class="text-center">
+              <button
+                class="btn btn-danger"
+                style="width: 5rem"
+                @click="deleteTeam(team.team_id)"
+              >
                 Delete
               </button>
             </td>
           </tr>
-          <tr key="newTeam">
+          <tr class="table-secondary">
             <td><input v-model="newTeamName" /></td>
-            <td>
-              <button class="btn btn-primary" type="submit">Add Team</button>
+            <td class="text-center">
+              <button style="width: 5rem" class="btn btn-primary" type="submit">
+                Add
+              </button>
             </td>
           </tr>
         </tbody>

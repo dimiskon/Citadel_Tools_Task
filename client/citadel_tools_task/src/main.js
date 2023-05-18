@@ -8,4 +8,13 @@ import router from "./router";
 axios.defaults.baseURL = "http://localhost:5000";
 axios.defaults.headers.authorization = localStorage.getItem("jwtToken");
 
-createApp(App).use(router).mount("#app");
+const app = createApp(App);
+
+// Global Error Handling when JWT Token expires
+app.config.errorHandler = (error, vm, info) => {
+  if (error.response.data.status === 403) {
+    localStorage.setItem("jwtToken", "");
+  }
+};
+
+app.use(router).mount("#app");

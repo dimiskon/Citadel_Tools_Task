@@ -19,6 +19,13 @@ const routes = [
       requiresAuth: true
     }
   },
+  {
+    path: "/teams/:team_id/players",
+    component: Teams,
+    meta: {
+      requiresAuth: true
+    }
+  },
   // Fail-Gracefully: All 404 Pages will redirect to `/login` page
   {
     path: "/:pathMatch(.*)*",

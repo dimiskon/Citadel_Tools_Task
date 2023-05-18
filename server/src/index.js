@@ -11,6 +11,7 @@ const PORT = process.env.PORT || 5000;
 // Routers
 const authorizationRouter = require("./routes/Authorization");
 const teamsRouter = require("./routes/Teams");
+const playersRouter = require("./routes/Players");
 
 // Middlewares
 const dbConnector = require("./middlewares/dbConnector");
@@ -38,6 +39,7 @@ const startServer = async () => {
     // Routers
     app.use("/", authorizationRouter);
     app.use("/teams", verifyJWT, teamsRouter);
+    app.use("/teams/:team_id/players", verifyJWT, playersRouter);
 
     // Middlewares - After
     app.use(filterOutResponse);
