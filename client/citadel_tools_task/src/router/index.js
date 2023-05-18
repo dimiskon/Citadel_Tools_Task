@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from "vue-router";
 import Login from "../components/Login.vue";
 import Register from "../components/Register.vue";
 import Teams from "../components/Teams.vue";
+import Players from "../components/Players.vue";
 
 const routes = [
   {
@@ -21,7 +22,7 @@ const routes = [
   },
   {
     path: "/teams/:team_id/players",
-    component: Teams,
+    component: Players,
     meta: {
       requiresAuth: true
     }

@@ -11,6 +11,7 @@ axios.defaults.headers.authorization = localStorage.getItem("jwtToken");
 const app = createApp(App);
 
 // Global Error Handling when JWT Token expires
+// Set jwtToken to empty string ('') and force user to re-login
 app.config.errorHandler = (error, vm, info) => {
   if (error.response.data.status === 403) {
     localStorage.setItem("jwtToken", "");
