@@ -14,7 +14,10 @@ const routes = [
   },
   {
     path: "/teams",
-    component: Teams
+    component: Teams,
+    meta: {
+      requiresAuth: true
+    }
   },
   // Fail-Gracefully: All 404 Pages will redirect to `/login` page
   {
@@ -28,12 +31,13 @@ const router = createRouter({
   routes
 });
 
+// Check if User is Authenticated before Accessing Protected App Routes
 router.beforeEach((to, from, next) => {
-  // Need to add logic for User API and Pages Authentication Access
-  const isAuthenticated = false;
+  const isAuthenticated = !!localStorage.getItem("jwtToken");
 
   if (to.meta.requiresAuth && !isAuthenticated) {
-    next("/login");
+    alert("Unauthorized Access!!! \nRedirecting to Login Page!");
+    setTimeout(next("/login"), 1000);
   } else {
     next();
   }

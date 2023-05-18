@@ -12,6 +12,6 @@ module.exports = Joi.object().keys({
     .trim()
     .required(),
   password: Joi.string().trim().required(),
-  token: Joi.string().trim().required(),
+  token2FA: Joi.string().trim().required(),
   secret: Joi.string().trim().required(),
 });

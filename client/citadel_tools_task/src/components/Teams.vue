@@ -1,6 +1,6 @@
 <template>
   <div>
-    <form @submit.prevent="addTeam">
+    <form @submit="addTeam">
       <table class="table">
         <thead>
           <tr>
@@ -9,10 +9,15 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="team in teams" :key="team.id">
-            <td>{{ team.name }}</td>
+          <tr v-for="team in teams" :key="team.team_id">
+            <router-link :to="'/teams/' + team.team_id + '/players'">{{
+              team.team_name
+            }}</router-link>
+            <!-- <a href="/teams">{{ team.team_name }}</a> -->
             <td>
-              <button class="btn btn-danger" @click="deleteTeam(team.id)">Delete</button>
+              <button class="btn btn-danger" @click="deleteTeam(team.team_id)">
+                Delete
+              </button>
             </td>
           </tr>
           <tr key="newTeam">
@@ -35,16 +40,17 @@ const teams = ref([]);
 const newTeamName = ref("");
 
 onMounted(async () => {
-  // const { data } = await axios.get("/users/:username/teams");
-  // teams.value = data.teams;
+  const { data } = await axios.get("/teams");
+  console.log(data);
+  teams.value = data;
 });
 
 const addTeam = async () => {
-  console.log("Add Team");
-  teams.value.push({ name: newTeamName.value });
+  await axios.post("/teams", { team_name: newTeamName.value });
 };
-const deleteTeam = async () => {
-  teams.value.pop();
+const deleteTeam = async (team_id) => {
   console.log("Delete Team");
+  console.log({ team_id });
+  await axios.delete(`/teams/${team_id}`);
 };
 </script>

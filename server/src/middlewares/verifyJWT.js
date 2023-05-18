@@ -5,21 +5,23 @@ const _ = require("lodash");
 
 const verifyJWT = (req, res, next) => {
   const jwtToken = _.get(req, "headers.authorization", null);
-  console.log(jwtToken);
+
   if (!jwtToken) {
     return next({
-      message: "Token not found!",
-      statusCode: 401,
+      message: "JWT token not found!",
+      statusCode: 404,
     });
   }
 
   try {
-    jwt.verify(jwtToken, process.env.JWT_SECRET);
+    const userDetails = jwt.verify(jwtToken, process.env.JWT_SECRET);
+    const username = _.get(userDetails, "username", "");
+    req.User = { username };
     next();
   } catch (error) {
     next({
       statusCode: 403,
-      message: "Unauthorized Access!",
+      message: "Unauthorized Access",
     });
   }
 };

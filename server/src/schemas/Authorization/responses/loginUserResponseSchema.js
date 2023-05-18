@@ -2,4 +2,4 @@
 
 const Joi = require("joi");
 
-module.exports = Joi.object().keys({ JWT: Joi.string().default("") });
+module.exports = Joi.string().default("");

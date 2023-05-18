@@ -7,7 +7,6 @@ const responseSchema = require("../../schemas/Authorization/responses/generateQR
 
 const generateQRCode = async (req, res, next) => {
   const secret = authenticator.generateSecret(32);
-  console.log({ secret });
 
   try {
     const dataURL = authenticator.keyuri("", "Teams Task", secret);

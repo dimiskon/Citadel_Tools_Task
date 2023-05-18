@@ -45,7 +45,7 @@
             </div>
             <div class="mb-3">
               <label class="form-label">2FA</label>
-              <input class="form-control" type="text" v-model="componentData.token" required />
+              <input class="form-control" type="text" v-model="componentData.token2FA" required />
             </div>
             <div class="d-grid gap-2 d-flex justify-content-center">
               <button class="btn btn-primary" style="font-size: 1.3rem" type="submit">
@@ -75,7 +75,7 @@ const componentData = reactive({
   confirmPassword: "",
   qrCodeImgURL: "",
   secret: "",
-  token: "",
+  token2FA: "",
   errorMessage: ""
 });
 

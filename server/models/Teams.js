@@ -27,12 +27,12 @@ module.exports = (sequelize, DataTypes) => {
   Teams.associate = function (models) {
     // Teams <-*------------1-> Users
     Teams.belongsTo(models.Users, {
-      foreignKey: { name: "username", allowNull: false, unique: true },
+      foreignKey: { name: "username", allowNull: false },
     });
 
     // Teams <-1------------*-> Players
     Teams.hasMany(models.Players, {
-      foreignKey: { name: "team_id", allowNull: false, unique: true },
+      foreignKey: { name: "team_id", allowNull: false },
     });
   };
 

@@ -7,5 +7,5 @@ module.exports = Joi.object()
     secret: Joi.string().default(""),
     qrCodeURL: Joi.string().default(""),
   })
-  .empty({})
+  .empty(null)
   .default(undefined);

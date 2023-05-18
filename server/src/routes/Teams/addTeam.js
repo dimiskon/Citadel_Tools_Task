@@ -4,7 +4,7 @@ const _ = require("lodash");
 
 const responseSchema = require("../../schemas/Teams/responses/addTeamResponseSchema");
 
-const getTeams = async (req, res, next) => {
+const addTeam = async (req, res, next) => {
   const { Teams } = _.get(req, "db.sequelize.models", {});
   const username = _.get(req, "User.username", null);
   const body = _.get(req, "body", {});
@@ -20,4 +20,4 @@ const getTeams = async (req, res, next) => {
   next();
 };
 
-module.exports = getTeams;
+module.exports = addTeam;

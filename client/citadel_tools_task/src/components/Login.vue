@@ -15,7 +15,12 @@
           <form @submit.prevent="login" autocomplete="off">
             <div class="mb-3">
               <label class="form-label">Email</label>
-              <input type="email" class="form-control" v-model="componentData.username" required />
+              <input
+                type="email"
+                class="form-control"
+                v-model="componentData.username"
+                required
+              />
             </div>
             <div class="mb-3">
               <label class="form-label">Password</label>
@@ -28,10 +33,21 @@
             </div>
             <div class="mb-3">
               <label class="form-label">2FA</label>
-              <input class="form-control" type="text" v-model="componentData.token" required />
+              <input
+                class="form-control"
+                type="text"
+                v-model="componentData.token2FA"
+                required
+              />
             </div>
             <div class="d-grid mt-2 justify-content-center">
-              <button class="btn btn-primary" style="font-size: 1.3rem" type="submit">Login</button>
+              <button
+                class="btn btn-primary"
+                style="font-size: 1.3rem"
+                type="submit"
+              >
+                Login
+              </button>
             </div>
           </form>
           <div class="text-center mt-2">
@@ -47,22 +63,29 @@
 import { reactive } from "vue";
 import axios from "axios";
 import _ from "lodash";
+import setAuthHeaders from "../utils/setAuthHeaders";
 import { useRouter } from "vue-router";
 const router = useRouter();
 
 const componentData = reactive({
   username: "",
   password: "",
-  token: "",
+  token2FA: "",
   errorMessage: ""
 });
 
 const login = async () => {
   try {
     const payload = _.omit(componentData, "errorMessage");
-    const { data: JWT } = await axios.post("/login", payload);
+    const { data: jwtToken } = await axios.post("/login", payload);
+
+    localStorage.setItem("jwtToken", jwtToken);
+    setAuthHeaders(jwtToken);
+
+    router.push("/teams");
   } catch (error) {
-    const AxiosError = error.name === "AxiosError" ? error.response.data.message : "";
+    const AxiosError =
+      error.name === "AxiosError" ? error.response.data.message : "";
     componentData.errorMessage = AxiosError
       ? AxiosError
       : `An error occurred while login user '${componentData.username}'`;

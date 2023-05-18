@@ -4,7 +4,6 @@ const Joi = require("joi");
 
 module.exports = Joi.object()
   .keys({
-    username: Joi.string().email().default(""),
+    deleted: Joi.bool().default(false),
   })
-  .empty(null)
-  .default(undefined);
+  .required();

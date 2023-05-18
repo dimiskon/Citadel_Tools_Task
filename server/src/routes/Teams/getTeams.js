@@ -6,7 +6,7 @@ const responseSchema = require("../../schemas/Teams/responses/getAllTeamsRespons
 
 const getTeams = async (req, res, next) => {
   const { Users, Teams } = _.get(req, "db.sequelize.models", {});
-  const username = _.get(req, `params.username`, "aaaa");
+  const username = _.get(req, `User.username`, "");
 
   const userTeams = await Users.findOne({
     where: { username },

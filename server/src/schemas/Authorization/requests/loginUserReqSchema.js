@@ -13,6 +13,6 @@ module.exports = Joi.object()
       .trim()
       .required(),
     password: Joi.string().trim().required(),
-    token: Joi.string().trim().required(),
+    token2FA: Joi.string().trim().required(),
   })
   .required();

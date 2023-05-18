@@ -31,7 +31,7 @@ module.exports = (sequelize, DataTypes) => {
   Users.associate = function (models) {
     // Users <-1------------*-> Teams
     Users.hasMany(models.Teams, {
-      foreignKey: { name: "username", allowNull: false, unique: true },
+      foreignKey: { name: "username", allowNull: false },
     });
   };
   return Users;

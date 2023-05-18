@@ -25,7 +25,6 @@ module.exports = {
           model: "Teams",
           key: "team_id",
         },
-        unique: true,
       },
       created_at: {
         allowNull: false,

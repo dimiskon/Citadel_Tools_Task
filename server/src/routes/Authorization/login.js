@@ -33,7 +33,7 @@ const login = async (req, res, next) => {
     }
 
     // Generate a JWT for this User
-    const JWT = jwt.sign(
+    const jwtToken = jwt.sign(
       {
         username: user.username,
         token: user.token,
@@ -45,7 +45,7 @@ const login = async (req, res, next) => {
     );
 
     res.responseSchema = responseSchema;
-    res.responseBody = { JWT };
+    res.responseBody = jwtToken;
     next();
   } catch (error) {
     return next({

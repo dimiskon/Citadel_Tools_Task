@@ -20,7 +20,6 @@ module.exports = {
           model: "Users",
           key: "username",
         },
-        unique: true,
       },
       created_at: {
         allowNull: false,

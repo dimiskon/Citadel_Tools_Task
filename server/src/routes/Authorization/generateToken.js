@@ -4,10 +4,10 @@ const { authenticator } = require("@otplib/preset-default");
 
 const generateToken = (req, res, next) => {
   const secret = req.body.secret;
-  const token = authenticator.generate(secret);
+  const token2FA = authenticator.generate(secret);
 
   res.responseBody = {
-    token,
+    token2FA,
   };
   next();
 };
