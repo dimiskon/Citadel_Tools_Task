@@ -16,8 +16,8 @@
             </router-link>
             <td class="text-center">
               <button
+                type="button"
                 class="btn btn-danger"
-                style="width: 5rem"
                 @click="deleteTeam(team.team_id)"
               >
                 Delete
@@ -27,8 +27,12 @@
           <tr class="table-secondary">
             <td><input v-model="newTeamName" /></td>
             <td class="text-center">
-              <button style="width: 5rem" class="btn btn-primary" type="submit">
-                Add
+              <button
+                :disabled="enableAddButton"
+                class="btn btn-primary"
+                type="submit"
+              >
+                Add Team
               </button>
             </td>
           </tr>
@@ -39,15 +43,18 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from "vue";
+import { ref, onMounted, computed } from "vue";
 import axios from "axios";
 
 const teams = ref([]);
 const newTeamName = ref("");
 
+const enableAddButton = computed(() => {
+  return !newTeamName.value;
+});
+
 onMounted(async () => {
   const { data } = await axios.get("/teams");
-  console.log(data);
   teams.value = data;
 });
 
@@ -55,8 +62,7 @@ const addTeam = async () => {
   await axios.post("/teams", { team_name: newTeamName.value });
 };
 const deleteTeam = async (team_id) => {
-  console.log("Delete Team");
-  console.log({ team_id });
   await axios.delete(`/teams/${team_id}`);
+  window.location.reload();
 };
 </script>

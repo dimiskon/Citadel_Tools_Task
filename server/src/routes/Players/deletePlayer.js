@@ -2,13 +2,14 @@
 
 const _ = require("lodash");
 
-const responseSchema = require("../../schemas/Teams/responses/deleteTeamResponseSchema");
+const responseSchema = require("../../schemas/Players/responses/deletePlayerResponseSchema");
 
 const deleteTeam = async (req, res, next) => {
-  const Team = _.get(req, "Team", {});
-  console.log({ Team });
+  const Player = _.get(req, "Player", {});
+
   try {
-    await Team.destroy();
+    await Player.destroy();
+
     res.responseBody = { deleted: true };
     res.responseSchema = responseSchema;
     next();

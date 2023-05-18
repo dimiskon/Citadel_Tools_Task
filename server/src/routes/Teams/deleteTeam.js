@@ -6,7 +6,7 @@ const responseSchema = require("../../schemas/Teams/responses/deleteTeamResponse
 
 const deleteTeam = async (req, res, next) => {
   const Team = _.get(req, "Team", {});
-  console.log({ Team });
+
   try {
     await Team.destroy();
     res.responseBody = { deleted: true };

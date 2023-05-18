@@ -16,7 +16,7 @@ module.exports = async (req, res, next) => {
   const responseSchema = _.get(res, "responseSchema", null);
 
   if (!responseBody) {
-    return;
+    return next();
   }
   // Calling getRawData to obtain ONLY the raw data values.
   // There are cases when we'll receive of a Sequelize Object
@@ -25,7 +25,7 @@ module.exports = async (req, res, next) => {
 
   if (!responseSchema) {
     res.status(200).json(responseBodyRaw);
-    return;
+    return next();
   }
 
   try {

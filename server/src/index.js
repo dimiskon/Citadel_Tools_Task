@@ -45,7 +45,7 @@ const startServer = async () => {
     app.use(filterOutResponse);
 
     //The 404 Route
-    app.use((req, res, next) => {
+    app.use("*", (req, res, next) => {
       next({
         statusCode: 404,
         message: "Page not found!",
