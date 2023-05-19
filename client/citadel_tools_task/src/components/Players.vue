@@ -1,58 +1,77 @@
 <template>
   <div class="container">
-    <div class="card">
-      <h2 class="card-header" style="background-color: black">
-        {{ "Team " + team.team_name }}
-      </h2>
+    <div class="card" style="background-color: lightgray">
+      <div>
+        <h2 class="card-header" style="background-color: black">
+          {{ "Team " + team.team_name }}
+        </h2>
+      </div>
+      <div class="p-3 mt-2">
+        <input
+          type="search"
+          style="font-size: 1.3rem"
+          placeholder="Search Player..."
+          class="form-control"
+        />
+      </div>
       <div class="card-body">
         <div class="card-text"></div>
-        <form @submit="addPlayer">
-          <table class="table">
-            <thead>
-              <tr>
-                <th>Player Name</th>
-                <th>Signed</th>
-                <th>Action</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr v-for="player in players" :key="player.player_id">
-                <td>
-                  <h2>{{ player.player_name }}</h2>
-                </td>
-                <td>
-                  <input
-                    type="checkbox"
-                    @click="onSignPlayer(player)"
-                    :checked="player.signed"
-                  />
-                </td>
-                <td>
-                  <button
-                    class="btn btn-danger"
-                    type="button"
-                    @click="deletePlayer(player.player_id)"
-                  >
-                    Delete
-                  </button>
-                </td>
-              </tr>
-              <tr class="table-secondary">
-                <td><input v-model="formData.player_name" /></td>
-                <td><input type="checkbox" v-model="formData.signed" /></td>
-                <td>
-                  <button
-                    :disabled="enableAddButton"
-                    class="btn btn-primary"
-                    type="submit"
-                  >
-                    Add Player
-                  </button>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </form>
+        <table class="table table-bordered" style="background-color: white">
+          <thead style="background-color: lightslategray; color: white">
+            <tr>
+              <th>Player Name</th>
+              <th>Signed</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="player in players" data- :key="player.player_id">
+              <td>
+                <h4>{{ player.player_name }}</h4>
+              </td>
+              <td class="text-center">
+                <input
+                  class="form-check-input"
+                  type="checkbox"
+                  @click="onSignPlayer(player)"
+                  :checked="player.signed"
+                />
+              </td>
+              <td class="text-center">
+                <button
+                  class="btn btn-danger"
+                  @click="deletePlayer(player.player_id)"
+                >
+                  Delete
+                </button>
+              </td>
+            </tr>
+            <tr style="background-color: lightslategray">
+              <td>
+                <input
+                  class="form-control-sm w-75"
+                  v-model="newPlayer.player_name"
+                />
+              </td>
+              <td class="text-center">
+                <input
+                  class="form-check-input"
+                  type="checkbox"
+                  v-model="newPlayer.signed"
+                />
+              </td>
+              <td class="text-center">
+                <button
+                  :disabled="enableAddButton"
+                  @click="addPlayer()"
+                  class="btn btn-primary"
+                >
+                  Add Player
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </div>
   </div>
@@ -74,35 +93,45 @@ const team_id = route.params["team_id"];
 const apiGetPlayersURL = `/teams/${team_id}/players`;
 
 const players = ref([]);
-const formData = reactive({
+
+const newPlayerDefaultValues = {
   player_name: "",
   signed: false
-});
+};
+const newPlayer = reactive({ ...newPlayerDefaultValues });
+const resetNewPlayerValues = () => {
+  Object.assign(newPlayer, newPlayerDefaultValues);
+};
 
 const enableAddButton = computed(() => {
-  return !formData.player_name;
+  return !newPlayer.player_name;
 });
 
-onMounted(async () => {
+const fetchPlayers = async () => {
   const { data } = await axios.get(apiGetPlayersURL);
+
   team.value.team_id = data.team_id;
   team.value.team_name = data.team_name;
-
   players.value = _.get(data, "Players", []);
-});
+  resetNewPlayerValues();
+};
 
 const onSignPlayer = async (player) => {
   await axios.put(`/teams/${team_id}/players/${player.player_id}`, {
     signed: !player.signed
   });
-  window.location.reload();
+  await fetchPlayers();
 };
 
 const addPlayer = async () => {
-  await axios.post(apiGetPlayersURL, formData);
+  await axios.post(apiGetPlayersURL, newPlayer);
+  await fetchPlayers();
 };
 const deletePlayer = async (player_id) => {
   await axios.delete(`/teams/${team_id}/players/${player_id}`);
-  window.location.reload();
+  await fetchPlayers();
 };
+
+// API call to fetch Players on component mount (1st call)
+onMounted(fetchPlayers);
 </script>
