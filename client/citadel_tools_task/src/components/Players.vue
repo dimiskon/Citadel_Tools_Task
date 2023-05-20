@@ -12,6 +12,7 @@
           style="font-size: 1.3rem"
           placeholder="Search Player..."
           class="form-control"
+          v-model="searchTerm"
         />
       </div>
       <div class="card-body">
@@ -25,7 +26,7 @@
             </tr>
           </thead>
           <tbody>
-            <tr v-for="player in players" data- :key="player.player_id">
+            <tr v-for="player in players" :key="player.player_id">
               <td>
                 <h4>{{ player.player_name }}</h4>
               </td>
@@ -79,7 +80,7 @@
 
 <script setup>
 import _ from "lodash";
-import { ref, onMounted, reactive } from "vue";
+import { ref, onMounted, reactive, watch } from "vue";
 import axios from "axios";
 import { useRoute } from "vue-router";
 import { computed } from "vue";
@@ -107,13 +108,30 @@ const enableAddButton = computed(() => {
   return !newPlayer.player_name;
 });
 
+const searchTerm = ref("");
+
+watch(searchTerm, async (player_name) => {
+  const { data } = await axios.get(apiGetPlayersURL, {
+    params: {
+      player_name
+    }
+  });
+
+  team.value.team_id = data.team_id;
+  team.value.team_name = data.team_name;
+  players.value = _.get(data, "Players", []);
+});
+
 const fetchPlayers = async () => {
   const { data } = await axios.get(apiGetPlayersURL);
 
   team.value.team_id = data.team_id;
   team.value.team_name = data.team_name;
   players.value = _.get(data, "Players", []);
+
+  // Reset values - Players array and searchTerm field
   resetNewPlayerValues();
+  searchTerm.value = "";
 };
 
 const onSignPlayer = async (player) => {
