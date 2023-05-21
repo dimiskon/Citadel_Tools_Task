@@ -8,7 +8,6 @@ const getTeams = async (req, res, next) => {
   const { Players, Teams } = _.get(req, "db.sequelize.models", {});
   const team_id = _.get(req, "Team.team_id", null);
   const player_name = _.get(req, "query.player_name", "");
-  console.log({ player_name });
 
   const teamPlayers = await Teams.findOne({
     where: { team_id },

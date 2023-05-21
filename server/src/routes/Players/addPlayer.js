@@ -10,7 +10,6 @@ const addTeam = async (req, res, next) => {
   const body = _.get(req, "body", {});
 
   const payload = { ...body, team_id: Team.team_id };
-
   const newPlayer = await Players.create(payload);
 
   res.responseBody = newPlayer;
