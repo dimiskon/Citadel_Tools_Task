@@ -86,7 +86,7 @@ import { useRoute } from "vue-router";
 import { computed } from "vue";
 const route = useRoute();
 
-const team = ref({
+const team = reactive({
   team_name: "",
   team_id: ""
 });
@@ -117,16 +117,16 @@ watch(searchTerm, async (player_name) => {
     }
   });
 
-  team.value.team_id = data.team_id;
-  team.value.team_name = data.team_name;
+  team.team_id = data.team_id;
+  team.team_name = data.team_name;
   players.value = _.get(data, "Players", []);
 });
 
 const fetchPlayers = async () => {
   const { data } = await axios.get(apiGetPlayersURL);
 
-  team.value.team_id = data.team_id;
-  team.value.team_name = data.team_name;
+  team.team_id = data.team_id;
+  team.team_name = data.team_name;
   players.value = _.get(data, "Players", []);
 
   // Reset values - Players array and searchTerm field
