@@ -14,7 +14,7 @@
             </tr>
           </thead>
           <tbody style="background-color: white">
-            <tr v-for="team in teams" data- :key="team.team_id">
+            <tr v-for="team in teams" :key="team.team_id">
               <router-link
                 style="font-size: 1.5rem"
                 :to="'/teams/' + team.team_id + '/players'"
@@ -32,10 +32,7 @@
             </tr>
             <tr style="background-color: lightslategray">
               <td>
-                <input
-                  class="form-control-sm w-75 text-center"
-                  v-model="newTeamName"
-                />
+                <input class="form-control-sm w-75" v-model="newTeamName" />
               </td>
               <td class="text-center">
                 <button

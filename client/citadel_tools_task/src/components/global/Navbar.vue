@@ -6,9 +6,10 @@
   >
     <div class="container-fluid m-1">
       <a
+        id="userTeams"
         href="/teams"
-        class="navbar-brand"
-        style="color: aliceblue; font-size: 1.6rem"
+        class="navbar-btn"
+        style="color: aliceblue; font-size: 2rem"
       >
         User Teams
       </a>

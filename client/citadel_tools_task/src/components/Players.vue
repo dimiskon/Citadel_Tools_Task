@@ -30,7 +30,7 @@
               <td>
                 <h4>{{ player.player_name }}</h4>
               </td>
-              <td class="text-center">
+              <td class="text-center" style="position: relative; top: 5px">
                 <input
                   class="form-check-input"
                   type="checkbox"
@@ -110,20 +110,15 @@ const enableAddButton = computed(() => {
 
 const searchTerm = ref("");
 
-watch(searchTerm, async (player_name) => {
-  const { data } = await axios.get(apiGetPlayersURL, {
-    params: {
-      player_name
-    }
-  });
-
-  team.team_id = data.team_id;
-  team.team_name = data.team_name;
-  players.value = _.get(data, "Players", []);
+watch(searchTerm, async (searchText) => {
+  const player_name = _.inRange(searchText.length, 0, 2) ? "" : searchText;
+  await fetchPlayers(player_name);
 });
 
-const fetchPlayers = async () => {
-  const { data } = await axios.get(apiGetPlayersURL);
+const fetchPlayers = async (player_name = "") => {
+  const { data } = await axios.get(apiGetPlayersURL, {
+    params: { player_name }
+  });
 
   team.team_id = data.team_id;
   team.team_name = data.team_name;
@@ -131,7 +126,6 @@ const fetchPlayers = async () => {
 
   // Reset values - Players array and searchTerm field
   resetNewPlayerValues();
-  searchTerm.value = "";
 };
 
 const onSignPlayer = async (player) => {
